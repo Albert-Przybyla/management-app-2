@@ -22,5 +22,6 @@ func New() *APIServer {
 }
 
 func (a *APIServer) Start() {
+	a.Routes()
 	a.engine.Run(":" + a.port)
 }
