@@ -39,6 +39,18 @@ func (p *Postgres) CreateUser(req model_user.CreateUserRequest) error {
 	return nil
 }
 
+func (p *Postgres) GetUserByEmail(email string) (*model_user.User, error) {
+	var user model_user.User
+	res := p.db.Where("email = ?", email).First(&user)
+	if res.Error != nil {
+		if res.Error == gorm.ErrRecordNotFound {
+			return nil, res.Error
+		}
+		return nil, res.Error
+	}
+	return &user, nil
+}
+
 func (p *Postgres) userExists(email string) (bool, error) {
 	var user model_user.User
 	res := p.db.Table(config.AppConfig.UsersTable).Where("email = ?", email).First(&user)
@@ -50,5 +62,4 @@ func (p *Postgres) userExists(email string) (bool, error) {
 	}
 
 	return true, nil
-
 }
