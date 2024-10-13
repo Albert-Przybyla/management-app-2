@@ -1,15 +1,17 @@
 package main
 
 import (
-	"fmt"
+	"log"
+	"menagment-app-2/src/api"
 	"menagment-app-2/src/config"
 )
 
 func main() {
 
-	cfg, err := config.LoadConfigSingleton()
+	err := config.LoadConfig()
 	if err != nil {
-		panic(fmt.Sprintf("Failed to load config: %v", err))
+		log.Fatalf("Failed to load config: %v", err)
 	}
-	fmt.Printf("Starting server on port %s\n", cfg.Port)
+	a := api.New()
+	a.Start()
 }
