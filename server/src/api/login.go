@@ -1,15 +1,23 @@
 package api
 
 import (
-	"menagment-app-2/src/config"
 	model_user "menagment-app-2/src/model/user"
 	"net/http"
-	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 )
+
+// @Summary Log in a user
+// @Description Authenticates user with email and password and returns a JWT token.
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param loginRequest body model_user.LoginRequest true "Login credentials"
+// @Success 200 {object} model_user.LoginResponse
+// @Failure 400 {object} map[string]string
+// @Failure 401 {object} map[string]string
+// @Router /login [post]
 
 func (a *APIServer) Login(c *gin.Context) {
 	var req model_user.LoginUserRequest
@@ -31,31 +39,11 @@ func (a *APIServer) Login(c *gin.Context) {
 		return
 	}
 
-	token, err := generateJWT(user)
+	token, err := a.generateToken(user)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
 		return
 	}
 
 	c.JSON(http.StatusOK, model_user.TokenUserResponse{Token: token})
-}
-
-func generateJWT(user *model_user.User) (string, error) {
-	secret := []byte(config.AppConfig.JWTSecret)
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id":    user.Id,
-		"email": user.Email,
-		"name":  user.FirstName + " " + user.LastName,
-		"iat":   time.Now().Unix(),
-		"exp":   time.Now().Add(time.Hour * 6).Unix(), //6h
-	})
-
-	// Podpisujemy token
-	tokenString, err := token.SignedString(secret)
-	if err != nil {
-		return "", err
-	}
-
-	return tokenString, nil
 }

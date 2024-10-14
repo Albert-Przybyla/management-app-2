@@ -39,6 +39,44 @@ func (p *Postgres) CreateUser(req model_user.CreateUserRequest) error {
 	return nil
 }
 
+func (p *Postgres) UpdateUser(req model_user.UpdateUserRequest) error {
+	userExists, err := p.userExists(req.Email)
+	if err != nil {
+		return err
+	}
+
+	if !userExists {
+		return fmt.Errorf("user with email %s does not exist", req.Email)
+	}
+
+	user := model_user.User{
+		Email:     req.Email,
+		Password:  req.Password,
+		FirstName: req.FirstName,
+		LastName:  req.LastName,
+	}
+
+	res := p.db.Updates(&user)
+	if res.Error != nil {
+		return res.Error
+	}
+
+	return nil
+}
+
+func (p *Postgres) GetUserById(id string) (*model_user.User, error) {
+	var user model_user.User
+	res := p.db.Table(config.AppConfig.UsersTable).Where("id = ?", id).First(&user)
+	if res.Error != nil {
+		if res.Error == gorm.ErrRecordNotFound {
+			return nil, nil
+		}
+		return nil, res.Error
+	}
+
+	return &user, nil
+}
+
 func (p *Postgres) GetUserByEmail(email string) (*model_user.User, error) {
 	var user model_user.User
 	res := p.db.Where("email = ?", email).First(&user)
