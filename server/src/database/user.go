@@ -25,10 +25,12 @@ func (p *Postgres) CreateUser(req model_user.CreateUserRequest) error {
 	}
 
 	user := model_user.User{
-		Email:     req.Email,
-		Password:  string(hashedPassword),
-		FirstName: req.FirstName,
-		LastName:  req.LastName,
+		Email:          req.Email,
+		Password:       string(hashedPassword),
+		FirstName:      req.FirstName,
+		LastName:       req.LastName,
+		Role:           model_user.UserRole(req.Role),
+		OrganizationID: req.OrganizationID,
 	}
 
 	res := p.db.Create(&user)

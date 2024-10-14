@@ -3,6 +3,7 @@ package database
 import (
 	"log"
 	"menagment-app-2/src/config"
+	model_organization "menagment-app-2/src/model/organization"
 	model_user "menagment-app-2/src/model/user"
 
 	"gorm.io/driver/postgres"
@@ -44,6 +45,6 @@ func (s *Postgres) Init() error {
 }
 
 func (s *Postgres) Migrate() error {
-	err := s.db.AutoMigrate(&model_user.User{})
+	err := s.db.AutoMigrate(&model_organization.Organization{}, &model_user.User{})
 	return err
 }

@@ -57,7 +57,8 @@ func (a *APIServer) generateToken(user *model_user.User) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"id":    user.Id,
 		"email": user.Email,
-		"name":  user.FirstName + " " + user.LastName,
+		"role":  user.Role,
+		"org":   user.OrganizationID,
 		"iat":   time.Now().Unix(),
 		"exp":   time.Now().Add(time.Hour * 6).Unix(), //6h
 	})
