@@ -3,8 +3,13 @@ package database
 import (
 	"log"
 	"menagment-app-2/src/config"
+	model_customer "menagment-app-2/src/model/customer"
+	model_item "menagment-app-2/src/model/item"
+	model_order "menagment-app-2/src/model/order"
 	model_organization "menagment-app-2/src/model/organization"
+	model_package "menagment-app-2/src/model/package"
 	model_storage "menagment-app-2/src/model/storage"
+	model_transaction "menagment-app-2/src/model/transaction"
 	model_user "menagment-app-2/src/model/user"
 
 	"gorm.io/driver/postgres"
@@ -49,6 +54,15 @@ func (s *Postgres) Migrate() error {
 	err := s.db.AutoMigrate(
 		&model_organization.Organization{},
 		&model_storage.Storage{},
-		&model_user.User{})
+		&model_user.User{},
+		&model_package.Package{},
+		&model_item.Item{},
+		&model_item.Item{},
+		&model_order.Order{},
+		&model_customer.Customer{},
+		&model_transaction.Transaction{},
+		&model_transaction.TransactionItem{},
+		&model_transaction.TransactionPackage{},
+	)
 	return err
 }
