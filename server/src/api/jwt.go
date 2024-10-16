@@ -41,7 +41,8 @@ func (a *APIServer) validateToken() gin.HandlerFunc {
 					return
 				}
 			}
-			c.Set("id", claims["id"])
+			c.Set("user_id", claims["id"])
+			c.Set("organization_id", claims["org"])
 		} else {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token 5"})
 			c.Abort()

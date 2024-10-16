@@ -35,11 +35,11 @@ func (a *APIServer) CreateUser(c *gin.Context) {
 }
 
 func (a *APIServer) GetUser(c *gin.Context) {
-	id, exist := c.Get("id")
+	user_id, exist := c.Get("user_id")
 	if !exist {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user ID"})
 	}
-	user, err := a.db.GetUserById(id.(string))
+	user, err := a.db.GetUserById(user_id.(string))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

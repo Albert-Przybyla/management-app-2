@@ -7,4 +7,6 @@ func (a *APIServer) Routes() {
 	a.engine.GET("/user", a.validateToken(), a.GetUser)
 
 	a.engine.POST("/organization", a.CreateOrganization)
+
+	a.engine.POST("/storage", a.validateToken(), a.CreateStorage)
 }
