@@ -41,31 +41,6 @@ func (p *Postgres) CreateUser(req model_user.CreateUser) (*model.CreateElementRe
 	return &model.CreateElementResponse{Id: user.Id}, nil
 }
 
-func (p *Postgres) UpdateUser(req model_user.UpdateUserRequest) error {
-	userExists, err := p.userExists(req.Email)
-	if err != nil {
-		return err
-	}
-
-	if !userExists {
-		return fmt.Errorf("user with email %s does not exist", req.Email)
-	}
-
-	user := model_user.User{
-		Email:     req.Email,
-		Password:  req.Password,
-		FirstName: req.FirstName,
-		LastName:  req.LastName,
-	}
-
-	res := p.db.Updates(&user)
-	if res.Error != nil {
-		return res.Error
-	}
-
-	return nil
-}
-
 func (p *Postgres) GetUserById(id string) (*model_user.User, error) {
 	var user model_user.User
 	res := p.db.Table("users").Where("id = ?", id).First(&user)
@@ -89,6 +64,22 @@ func (p *Postgres) GetUserByEmail(email string) (*model_user.User, error) {
 		return nil, res.Error
 	}
 	return &user, nil
+}
+
+func (p *Postgres) UpdateUser(id string, req model_user.UpdateUserRequest) error {
+	res := p.db.Model(&model_user.User{}).Where("id = ?", id).Updates(req)
+	if res.Error != nil {
+		return res.Error
+	}
+	return nil
+}
+
+func (p *Postgres) UpdateUserPassword(id string, req model_user.ChangePasswordRequest) error {
+	res := p.db.Model(&model_user.User{}).Where("id = ?", id).Updates(req)
+	if res.Error != nil {
+		return res.Error
+	}
+	return nil
 }
 
 func (p *Postgres) userExists(email string) (bool, error) {

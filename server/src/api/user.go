@@ -82,7 +82,7 @@ func (a *APIServer) CreateUser(c *gin.Context) {
 func (a *APIServer) GetUser(c *gin.Context) {
 	user_id, exist := c.Get("user_id")
 	if !exist {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user ID"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "unauthorized"})
 	}
 	user, err := a.db.GetUserById(user_id.(string))
 	if err != nil {
@@ -90,4 +90,43 @@ func (a *APIServer) GetUser(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, user)
+}
+
+func (a *APIServer) UpdateUser(c *gin.Context) {
+	var req model_user.UpdateUserRequest
+
+	if err := c.BindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	user_id, exist := c.Get("user_id")
+	if !exist {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "unauthorized"})
+	}
+	err := a.db.UpdateUser(user_id.(string), req)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "User updated successfully"})
+}
+
+func (a *APIServer) ChangePassword(c *gin.Context) {
+	// TODO: Check Password
+	var req model_user.ChangePasswordRequest
+
+	if err := c.BindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	user_id, exist := c.Get("user_id")
+	if !exist {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "unauthorized"})
+	}
+	err := a.db.UpdateUserPassword(user_id.(string), req)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Password updated successfully"})
 }
