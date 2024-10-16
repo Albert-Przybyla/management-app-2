@@ -15,7 +15,7 @@ func (p *Postgres) CreateOrganization(req model_organization.CreateOrganizationR
 	if res.Error != nil {
 		return nil, res.Error
 	}
-	return &model.CreateElementResponse{Id: organization.Id}, nil
+	return &model.CreateElementResponse{Id: organization.ID}, nil
 }
 
 func (p *Postgres) GetOrganizationById(id string) (*model_organization.Organization, error) {

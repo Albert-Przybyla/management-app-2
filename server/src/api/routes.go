@@ -18,4 +18,12 @@ func (a *APIServer) Routes() {
 
 	// Storage routes
 	a.engine.POST("/storage", a.validateToken(), a.CreateStorage)
+
+	// Item routes
+	a.engine.POST("/item", a.validateToken(), a.CreateItem)
+	a.engine.GET("/item", a.validateToken(), a.GetItems)
+	a.engine.GET("/item/:item_id", a.validateToken(), a.GetItem)
+	a.engine.PUT("/item/:item_id", a.validateToken(), a.UpdateItem)
+	a.engine.DELETE("/item/:item_id", a.validateToken(), a.UpdateItem)
+	a.engine.PATCH("/item/:item_id", a.validateToken(), a.AssignItemToPackage)
 }
