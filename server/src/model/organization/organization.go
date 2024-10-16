@@ -12,5 +12,5 @@ type Organization struct {
 	CreatedAt time.Time               `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt time.Time               `gorm:"autoUpdateTime" json:"updated_at"`
 	Users     []model_user.User       `gorm:"foreignKey:OrganizationID" json:"users"`
-	Srorages  []model_storage.Storage `gorm:"foreignKey:OrganizationID" json:"storages"`
+	Storages  []model_storage.Storage `gorm:"foreignKey:OrganizationID" json:"storages"`
 }

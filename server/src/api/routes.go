@@ -12,6 +12,7 @@ func (a *APIServer) Routes() {
 
 	// Organization routes
 	a.engine.POST("/organization", a.CreateOrganization)
+	a.engine.GET("/organization", a.validateToken(), a.GetOrganization)
 
 	// Storage routes
 	a.engine.POST("/storage", a.validateToken(), a.CreateStorage)

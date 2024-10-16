@@ -2,7 +2,6 @@ package database
 
 import (
 	"fmt"
-	"menagment-app-2/src/config"
 	"menagment-app-2/src/model"
 	model_user "menagment-app-2/src/model/user"
 
@@ -69,7 +68,7 @@ func (p *Postgres) UpdateUser(req model_user.UpdateUserRequest) error {
 
 func (p *Postgres) GetUserById(id string) (*model_user.User, error) {
 	var user model_user.User
-	res := p.db.Table(config.AppConfig.UsersTable).Where("id = ?", id).First(&user)
+	res := p.db.Table("users").Where("id = ?", id).First(&user)
 	if res.Error != nil {
 		if res.Error == gorm.ErrRecordNotFound {
 			return nil, nil
@@ -94,7 +93,7 @@ func (p *Postgres) GetUserByEmail(email string) (*model_user.User, error) {
 
 func (p *Postgres) userExists(email string) (bool, error) {
 	var user model_user.User
-	res := p.db.Table(config.AppConfig.UsersTable).Where("email = ?", email).First(&user)
+	res := p.db.Table("users").Where("email = ?", email).First(&user)
 	if res.Error != nil {
 		if res.Error == gorm.ErrRecordNotFound {
 			return false, nil
