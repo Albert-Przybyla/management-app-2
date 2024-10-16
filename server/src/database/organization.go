@@ -1,14 +1,17 @@
 package database
 
-import model_organization "menagment-app-2/src/model/organization"
+import (
+	"menagment-app-2/src/model"
+	model_organization "menagment-app-2/src/model/organization"
+)
 
-func (p *Postgres) CreateOrganization(req model_organization.CreateOrganizationRequest) error {
+func (p *Postgres) CreateOrganization(req model_organization.CreateOrganizationRequest) (*model.CreateElementResponse, error) {
 	organization := model_organization.Organization{
 		Name: req.Name,
 	}
 	res := p.db.Create(&organization)
 	if res.Error != nil {
-		return res.Error
+		return nil, res.Error
 	}
-	return nil
+	return &model.CreateElementResponse{Id: organization.Id}, nil
 }

@@ -15,11 +15,11 @@ func (a *APIServer) CreateOrganization(c *gin.Context) {
 		return
 	}
 
-	err := a.db.CreateOrganization(req)
+	res, err := a.db.CreateOrganization(req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Organization created successfully"})
+	c.JSON(http.StatusOK, res)
 }

@@ -22,3 +22,12 @@ type User struct {
 	CreatedAt      time.Time `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt      time.Time `gorm:"autoUpdateTime" json:"updated_at"`
 }
+
+type CreateUser struct {
+	Email          string
+	Password       string
+	FirstName      string
+	LastName       string
+	OrganizationID string
+	Role           string
+}

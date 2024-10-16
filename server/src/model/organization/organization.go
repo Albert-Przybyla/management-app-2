@@ -8,7 +8,7 @@ import (
 
 type Organization struct {
 	Id        string                  `gorm:"primaryKey;type:uuid;default:gen_random_uuid()" json:"id"`
-	Name      string                  `gorm:"unique;not null;size:255" json:"name"`
+	Name      string                  `gorm:"unique;not null;size:255" json:"name" binding:"required,min=3,max=255"`
 	CreatedAt time.Time               `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt time.Time               `gorm:"autoUpdateTime" json:"updated_at"`
 	Users     []model_user.User       `gorm:"foreignKey:OrganizationID" json:"users"`

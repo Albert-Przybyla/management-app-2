@@ -1,6 +1,7 @@
 package api
 
 import (
+	model_organization "menagment-app-2/src/model/organization"
 	model_user "menagment-app-2/src/model/user"
 	"net/http"
 
@@ -17,6 +18,38 @@ import (
 // @Failure 400 {object} map[string]string
 // @Router /create-user [post]
 
+func (a *APIServer) Register(c *gin.Context) {
+	var req model_user.CreateOwnerRequest
+
+	if err := c.BindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	res, err := a.db.CreateOrganization(model_organization.CreateOrganizationRequest{
+		Name: req.OrganizationName,
+	})
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	_, err = a.db.CreateUser(model_user.CreateUser{
+		Email:          req.Email,
+		Password:       req.Password,
+		FirstName:      req.FirstName,
+		LastName:       req.LastName,
+		OrganizationID: res.Id,
+		Role:           "owner",
+	})
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, model_user.TokenUserResponse{Token: "sample-token"})
+}
+
 func (a *APIServer) CreateUser(c *gin.Context) {
 	var req model_user.CreateUserRequest
 
@@ -25,13 +58,25 @@ func (a *APIServer) CreateUser(c *gin.Context) {
 		return
 	}
 
-	err := a.db.CreateUser(req)
+	organization_id, exist := c.Get("organization_id")
+	if !exist {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get organization ID"})
+	}
+
+	res, err := a.db.CreateUser(model_user.CreateUser{
+		Email:          req.Email,
+		Password:       req.Password,
+		FirstName:      req.FirstName,
+		LastName:       req.LastName,
+		OrganizationID: organization_id.(string),
+		Role:           req.Role,
+	})
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, model_user.TokenUserResponse{Token: "sample-token"})
+	c.JSON(http.StatusOK, res)
 }
 
 func (a *APIServer) GetUser(c *gin.Context) {

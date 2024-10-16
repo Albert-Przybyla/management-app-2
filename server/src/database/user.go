@@ -3,25 +3,26 @@ package database
 import (
 	"fmt"
 	"menagment-app-2/src/config"
+	"menagment-app-2/src/model"
 	model_user "menagment-app-2/src/model/user"
 
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
-func (p *Postgres) CreateUser(req model_user.CreateUserRequest) error {
+func (p *Postgres) CreateUser(req model_user.CreateUser) (*model.CreateElementResponse, error) {
 	userExists, err := p.userExists(req.Email)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	if userExists {
-		return fmt.Errorf("user with email %s already exists", req.Email)
+		return nil, fmt.Errorf("user with email %s already exists", req.Email)
 	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return fmt.Errorf("failed to hash password: %v", err)
+		return nil, fmt.Errorf("failed to hash password: %v", err)
 	}
 
 	user := model_user.User{
@@ -35,10 +36,10 @@ func (p *Postgres) CreateUser(req model_user.CreateUserRequest) error {
 
 	res := p.db.Create(&user)
 	if res.Error != nil {
-		return res.Error
+		return nil, res.Error
 	}
 
-	return nil
+	return &model.CreateElementResponse{Id: user.Id}, nil
 }
 
 func (p *Postgres) UpdateUser(req model_user.UpdateUserRequest) error {
