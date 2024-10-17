@@ -5,11 +5,11 @@ import (
 	"menagment-app-2/src/config"
 	model_customer "menagment-app-2/src/model/customer"
 	model_item "menagment-app-2/src/model/item"
+	model_operations "menagment-app-2/src/model/operations"
 	model_order "menagment-app-2/src/model/order"
 	model_organization "menagment-app-2/src/model/organization"
 	model_package "menagment-app-2/src/model/package"
 	model_storage "menagment-app-2/src/model/storage"
-	model_transaction "menagment-app-2/src/model/transaction"
 	model_user "menagment-app-2/src/model/user"
 
 	"gorm.io/driver/postgres"
@@ -60,9 +60,15 @@ func (s *Postgres) Migrate() error {
 		&model_item.Item{},
 		&model_order.Order{},
 		&model_customer.Customer{},
-		&model_transaction.Transaction{},
-		&model_transaction.TransactionItem{},
-		&model_transaction.TransactionPackage{},
+		&model_operations.Issue{},
+		&model_operations.IssueItem{},
+		&model_operations.IssuePackage{},
+		&model_operations.Return{},
+		&model_operations.ReturnItem{},
+		&model_operations.ReturnPackage{},
+		&model_operations.Transfer{},
+		&model_operations.TransferItem{},
+		&model_operations.TransferPackage{},
 	)
 	return err
 }
