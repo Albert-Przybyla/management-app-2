@@ -22,12 +22,12 @@ func (p *Postgres) CreateItem(req model_item.CreateItemRequest, organizationID s
 	return nil
 }
 
-func (p *Postgres) GetItems(organizationID string, pageSize, pageNumber int) (model.PagedListResponse[model_item.Item], error) {
+func (p *Postgres) GetItems(organizationID string, pageSize, pageNumber int) (*model.PagedListResponse[model_item.Item], error) {
 
 	var items []model_item.Item
 	res := p.db.Where("organization_id = ?", organizationID).Limit(pageSize).Offset((pageNumber - 1) * pageSize).Find(&items)
 	if res.Error != nil {
-		return model.PagedListResponse[model_item.Item]{}, res.Error
+		return nil, res.Error
 	}
 	var totalItems int64
 	p.db.Model(&model_item.Item{}).Where("organization_id = ?", organizationID).Count(&totalItems)
@@ -41,7 +41,7 @@ func (p *Postgres) GetItems(organizationID string, pageSize, pageNumber int) (mo
 		CurrentPage: pageNumber,
 	}
 
-	return response, nil
+	return &response, nil
 }
 
 func (p *Postgres) GetItemById(id string, organizationID string) (*model_item.Item, error) {

@@ -1,0 +1,2 @@
+-- Active: 1728475012099@@127.0.0.1@5432
+DROP DATABASE "menagment-app-2"

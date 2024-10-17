@@ -33,4 +33,9 @@ func (a *APIServer) Routes() {
 	a.engine.GET("/package/:package_id", a.validateToken(), a.GetPackage)
 	a.engine.PUT("/package/:package_id", a.validateToken(), a.UpdatePackage)
 	a.engine.DELETE("/package/:package_id", a.validateToken(), a.DeletePackage)
+
+	// Transfer routes
+	a.engine.POST("/transfer", a.validateToken(), a.CreateTransfer)
+	a.engine.GET("/transfer", a.validateToken(), a.GetTransfers)
+	// a.engine.GET("/transfer/:transfer_id", a.validateToken(), a.GetTransfer)
 }
