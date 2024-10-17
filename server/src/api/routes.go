@@ -26,4 +26,11 @@ func (a *APIServer) Routes() {
 	a.engine.PUT("/item/:item_id", a.validateToken(), a.UpdateItem)
 	a.engine.DELETE("/item/:item_id", a.validateToken(), a.UpdateItem)
 	a.engine.PATCH("/item/:item_id", a.validateToken(), a.AssignItemToPackage)
+
+	// Package routes
+	a.engine.POST("/package", a.validateToken(), a.CreatePackage)
+	a.engine.GET("/package", a.validateToken(), a.GetPackages)
+	a.engine.GET("/package/:package_id", a.validateToken(), a.GetPackage)
+	a.engine.PUT("/package/:package_id", a.validateToken(), a.UpdatePackage)
+	a.engine.DELETE("/package/:package_id", a.validateToken(), a.DeletePackage)
 }

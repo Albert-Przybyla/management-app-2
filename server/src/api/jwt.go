@@ -16,19 +16,19 @@ func (a *APIServer) validateToken() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token 1"})
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
 			c.Abort()
 			return
 		}
 		if !strings.HasPrefix(authHeader, "Bearer ") {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token 2"})
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
 			c.Abort()
 			return
 		}
 		token, err := validateJWT(strings.TrimPrefix(authHeader, "Bearer "))
 
 		if err != nil || !token.Valid {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token 3"})
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
 			c.Abort()
 			return
 		}
@@ -36,7 +36,7 @@ func (a *APIServer) validateToken() gin.HandlerFunc {
 		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 			if exp, ok := claims["exp"].(float64); ok {
 				if time.Unix(int64(exp), 0).Before(time.Now()) {
-					c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token 4"})
+					c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
 					c.Abort()
 					return
 				}
@@ -44,7 +44,7 @@ func (a *APIServer) validateToken() gin.HandlerFunc {
 			c.Set("user_id", claims["id"])
 			c.Set("organization_id", claims["org"])
 		} else {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token 5"})
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
 			c.Abort()
 			return
 		}
