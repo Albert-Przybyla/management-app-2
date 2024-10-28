@@ -38,4 +38,10 @@ func (a *APIServer) Routes() {
 	a.engine.POST("/transfer", a.validateToken(), a.CreateTransfer)
 	a.engine.GET("/transfer", a.validateToken(), a.GetTransfers)
 	// a.engine.GET("/transfer/:transfer_id", a.validateToken(), a.GetTransfer)
+
+	// Issue routes
+	a.engine.POST("/issue", a.validateToken(), a.CreateIssue)
+
+	// Return routes
+	a.engine.POST("/return", a.validateToken(), a.CreateReturn)
 }
