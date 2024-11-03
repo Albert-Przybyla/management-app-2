@@ -13,7 +13,7 @@ type CreateUserRequest struct {
 	Password  string `json:"password" binding:"required,min=6"`
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
-	Role      string `json:"role" binding:"required,oneof=user admin owner"`
+	Role      string `json:"role" binding:"required,oneof=user manager admin owner"`
 }
 
 type UpdateUserRequest struct {

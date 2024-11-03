@@ -5,9 +5,10 @@ import "time"
 type UserRole string
 
 const (
-	RoleOwner UserRole = "owner"
-	RoleAdmin UserRole = "admin"
-	RoleUser  UserRole = "user"
+	RoleAdmin   UserRole = "admin"
+	RoleOwner   UserRole = "owner"
+	RoleManager UserRole = "manager"
+	RoleUser    UserRole = "user"
 )
 
 type User struct {
