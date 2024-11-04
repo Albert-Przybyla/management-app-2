@@ -2,6 +2,7 @@ import { DecodedToken } from "@/models/user/decodedToken.model";
 import { User } from "@/models/user/user.model";
 import { getDecodedToken } from "@/services/authService";
 import { useRouter } from "expo-router";
+import * as SecureStore from "expo-secure-store";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 interface UserContextType {
@@ -21,17 +22,32 @@ interface UserProviderProps {
 
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [decodedToken, setDecodedToken] = useState<DecodedToken | null>(null);
 
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
 
   useEffect(() => {
-    setToken();
+    const initializeToken = async () => {
+      const storedToken = await SecureStore.getItemAsync("token");
+      if (storedToken) {
+        setToken(storedToken);
+      } else {
+        setToken(null);
+      }
+      setLoading(false);
+    };
+    initializeToken();
   }, []);
 
-  const setToken = async () => {
-    const tokenData = await getDecodedToken();
+  useEffect(() => {
+    if (token) {
+      decodeToken(token);
+    }
+  }, [token]);
+
+  const decodeToken = async (token: string) => {
+    const tokenData = await getDecodedToken(token);
     if (tokenData) {
       setDecodedToken(tokenData);
     } else {
@@ -49,9 +65,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   };
 
   const logout = async () => {
-    // await AsyncStorage.removeItem("authToken");
     setUser(null);
-    router.replace("/login");
   };
 
   const isAuthenticated = user !== null;

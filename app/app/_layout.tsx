@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { UserProvider, useUser } from "@/context/userContext";
+import { UserProvider } from "@/context/userContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -30,8 +30,20 @@ export default function RootLayout() {
     <UserProvider>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack>
-          <Stack.Screen name="(app)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
+          <Stack.Screen
+            name="login"
+            options={{
+              presentation: "modal",
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="+not-found"
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen name="(root)" options={{ headerShown: false }} />
         </Stack>
       </ThemeProvider>
     </UserProvider>

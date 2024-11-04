@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { View, TextInput, Button, Alert, StyleSheet, Text } from "react-native";
-import { login } from "../../api/login";
+import { TextInput, Button, Alert, StyleSheet, Text } from "react-native";
+import { login } from "../api/login";
 import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/ThemedText";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const handleLogin = async () => {
     try {
       await login(email, password);
-      // Dodaj dodatkową logikę po udanym logowaniu, np. nawigacja
     } catch (error: any) {
       Alert.alert("Login failed", error.message);
     }
@@ -18,7 +18,7 @@ export default function LoginScreen() {
 
   return (
     <ThemedView style={styles.container}>
-      <Text style={styles.title}>Welcome Back!</Text>
+      <ThemedText style={styles.title}>Welcome Back! </ThemedText>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     padding: 20,
-    backgroundColor: "#f5f5f5",
   },
   title: {
     fontSize: 24,
@@ -55,11 +54,12 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    borderColor: "#ccc",
+    borderColor: useThemeColor({ light: "#000", dark: "#fff" }, "text"),
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 15,
-    backgroundColor: "#fff",
+    backgroundColor: useThemeColor({ light: "#fff", dark: "#000" }, "background"),
+    color: useThemeColor({ light: "#000", dark: "#fff" }, "text"),
   },
 });
