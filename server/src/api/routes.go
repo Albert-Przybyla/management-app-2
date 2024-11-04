@@ -41,7 +41,9 @@ func (a *APIServer) Routes() {
 
 	// Issue routes
 	a.engine.POST("/issue", a.validateToken(), a.CreateIssue)
+	a.engine.GET("/issue", a.validateToken(), a.GetIssues)
 
 	// Return routes
 	a.engine.POST("/return", a.validateToken(), a.CreateReturn)
+	a.engine.GET("/return", a.validateToken(), a.GetRetruns)
 }

@@ -82,3 +82,14 @@ func (p *Postgres) GetTransfers(organizationID string, pageSize, pageNumber int)
 
 	return &response, nil
 }
+
+func (p *Postgres) GetAllTransfers(organizationID string) (*[]model_operations.Transfer, error) {
+	var items []model_operations.Transfer
+	res := p.db.Preload("Items").Preload("Packages").Where("organization_id = ?", organizationID).Order("created_at desc").Find(&items)
+
+	if res.Error != nil {
+		return nil, res.Error
+	}
+	p.db.Model(&model_operations.Transfer{}).Where("organization_id = ?", organizationID)
+	return &items, nil
+}
