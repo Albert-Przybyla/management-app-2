@@ -8,8 +8,8 @@ import (
 
 type Transfer struct {
 	ID                   string    `gorm:"primaryKey;type:uuid;default:gen_random_uuid()" json:"id"`
-	SourceStorageID      *string   `gorm:"type:uuid" json:"user_id,omitempty"`
-	DestinationStorageID *string   `gorm:"type:uuid" json:"source_storage_id,omitempty"`
+	SourceStorageID      *string   `gorm:"type:uuid" json:"source_storage_id,omitempty"`
+	DestinationStorageID *string   `gorm:"type:uuid" json:"destination_storage_id,omitempty"`
 	Notes                *string   `gorm:"size:255" json:"notes"`
 	OrganizationID       string    `gorm:"type:uuid" json:"organization_id"`
 	CreatedAt            time.Time `gorm:"autoCreateTime" json:"created_at"`
