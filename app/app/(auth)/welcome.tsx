@@ -1,4 +1,4 @@
-import CoustomTouchableOpacity from "@/components/customTouchableOpacity";
+import Button from "@/components/Button";
 import onboarding from "@/constants";
 import { router } from "expo-router";
 import React, { useRef } from "react";
@@ -8,7 +8,6 @@ import Swiper from "react-native-swiper";
 const WelcomeScreen = () => {
   const swiperRef = useRef<Swiper | null>(null);
   const [activeIndex, setActiveIndex] = React.useState(0);
-
   return (
     <SafeAreaView className="flex h-full items-center justify-between">
       <TouchableOpacity
@@ -41,13 +40,12 @@ const WelcomeScreen = () => {
           </View>
         ))}
       </Swiper>
-      <CoustomTouchableOpacity
+      <Button
         className="w-full flex justify-center items-center"
         onPress={() => {
           if (activeIndex === onboarding.length - 1) {
             router.replace("/(auth)/sign-in");
           } else {
-            console.log(swiperRef.current);
             if (swiperRef.current) swiperRef.current.scrollBy(1);
           }
         }}

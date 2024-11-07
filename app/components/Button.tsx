@@ -2,18 +2,18 @@ import { ButtonProps } from "@/types/type";
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
 
-const CoustomTouchableOpacity = ({ title, onPress, LeftIcon, RightIcon, className, ...props }: ButtonProps) => {
+const Button = ({ title, onPress, IconLeft, IconRight, className, ...props }: ButtonProps) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       className={`w-full rounded-full flex flex-row items-center justify-center shadow-md shadow-neutral-400/70 ${className}`}
       {...props}
     >
-      {LeftIcon && <LeftIcon />}
+      {IconLeft && <IconLeft />}
       <Text>{title}</Text>
-      {RightIcon && <RightIcon />}
+      {IconRight && <IconRight />}
     </TouchableOpacity>
   );
 };
 
-export default CoustomTouchableOpacity;
+export default Button;
