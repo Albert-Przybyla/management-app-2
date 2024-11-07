@@ -11,11 +11,15 @@ declare interface ButtonProps extends TouchableOpacityProps {
 
 declare interface InputFieldProps extends TextInputProps {
   label: string;
-  icon?: any;
+  Icon?: any;
   secureTextEntry?: boolean;
-  labelStyle?: string;
-  containerStyle?: string;
-  inputStyle?: string;
-  iconStyle?: string;
+  labelClass?: string;
+  containerClass?: string;
+  inputClass?: string;
+  iconClass?: string;
   className?: string;
+  name: string;
+  rules?: any;
+
+  defaultValue?: string;
 }
