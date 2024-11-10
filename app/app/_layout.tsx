@@ -4,7 +4,8 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
 import "../global.css";
-import { AuthProvider, useAuth } from "@/context/AuthContext";
+import { AuthProvider } from "@/context/AuthContext";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -31,13 +32,14 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
-      <Layout />
+      <GestureHandlerRootView>
+        <Layout />
+      </GestureHandlerRootView>
     </AuthProvider>
   );
 }
 
 const Layout = () => {
-  const { authState } = useAuth();
   return (
     <Stack>
       <Stack.Screen name="+not-found" />

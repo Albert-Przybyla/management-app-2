@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }: any) => {
       console.log("token", token);
       if (token) {
         setAuthState({ token, authenticated: true });
-        router.push("/(root)/(tabs)/home");
+        router.push("/(root)/(tabs)/calendar");
       } else {
         setAuthState({ token: null, authenticated: false });
         router.push("/(auth)/welcome");

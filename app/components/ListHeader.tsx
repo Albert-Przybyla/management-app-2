@@ -13,7 +13,7 @@ const ListHeader = ({ scrollRef, headerImage }: ListHeaderProps) => {
   // Użycie offsetu przewijania dla referencji
   const scrollOffset = useScrollViewOffset(scrollRef);
 
-  // Styl animacji dla nagłówka
+  // Styl animacji dla nagłówkai
   const headerAnimatedStyle = useAnimatedStyle(() => ({
     transform: [
       {
