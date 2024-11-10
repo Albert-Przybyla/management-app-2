@@ -7,10 +7,5 @@ export const fetchItems = async (page: number, pageSize: number): Promise<PagedR
   const response = await api.get(`/item`, {
     params: { page, pageSize },
   });
-
-  if (response.data.token) {
-    await SecureStore.setItemAsync(process.env.EXPO_PUBLIC_TOKEN_KEY || "token", response.data.token);
-  }
-
   return response.data;
 };

@@ -1,11 +1,14 @@
-import { LoginRequest } from "@/models/user/user.model";
+import { LoginRequest, UserResponse } from "@/models/user/user.model";
 import { createContext, useContext, useEffect, useState } from "react";
 import * as SecureStore from "expo-secure-store";
 import { api } from "@/api/api";
 import { router } from "expo-router";
+import { isTokenValid } from "@/services/authService";
+import { fetchCurrentUser } from "@/api/user";
 
 interface AuthState {
   token: string | null;
+  userData: UserResponse | null;
   authenticated: boolean | null;
 }
 
@@ -29,12 +32,12 @@ export const AuthProvider = ({ children }: any) => {
   useEffect(() => {
     (async () => {
       const token = await SecureStore.getItemAsync(tokenKey);
-      console.log("token", token);
-      if (token) {
-        setAuthState({ token, authenticated: true });
+      if (token && (await isTokenValid(token))) {
+        const userData = await fetchCurrentUser();
+        setAuthState({ token, userData, authenticated: true });
         router.push("/(root)/(tabs)/calendar");
       } else {
-        setAuthState({ token: null, authenticated: false });
+        setAuthState({ token: null, userData: null, authenticated: false });
         router.push("/(auth)/welcome");
       }
     })();
@@ -43,14 +46,16 @@ export const AuthProvider = ({ children }: any) => {
   const login = async (req: LoginRequest) => {
     const result = await api.post(`/login`, req);
     if (result.data) {
-      setAuthState({ token: result.data.token, authenticated: true });
       await SecureStore.setItemAsync(process.env.EXPO_PUBLIC_TOKEN_KEY || "token ", result.data.token);
+      const userData = await fetchCurrentUser();
+      setAuthState({ token: result.data.token, userData, authenticated: true });
     }
   };
 
   const logout = async () => {
+    console.error("logout");
     await SecureStore.deleteItemAsync(tokenKey);
-    setAuthState({ token: null, authenticated: false });
+    setAuthState({ token: null, userData: null, authenticated: false });
   };
 
   const value = { onLogin: login, onLogout: logout, authState };

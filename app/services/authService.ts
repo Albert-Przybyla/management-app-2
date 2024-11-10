@@ -13,3 +13,12 @@ export const getDecodedToken = async (token: string): Promise<DecodedToken | nul
   }
   return null;
 };
+
+export const isTokenValid = async (token: string): Promise<boolean> => {
+  const decodedToken = await getDecodedToken(token);
+  if (decodedToken && decodedToken.exp) {
+    const currentTime = Math.floor(Date.now() / 1000);
+    return decodedToken.exp > currentTime;
+  }
+  return false;
+};
