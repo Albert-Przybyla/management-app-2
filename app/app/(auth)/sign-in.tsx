@@ -1,9 +1,10 @@
 import InputField from "@/components/InputField";
 import React from "react";
-import { SafeAreaView, Text, ScrollView, View, Button, Alert } from "react-native";
+import { SafeAreaView, Text, ScrollView, View, Button, Alert, Image } from "react-native";
 import { FormProvider, SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { LoginRequest } from "@/models/user/user.model";
 import { useAuth } from "@/context/AuthContext";
+import { router } from "expo-router";
 
 const SignInScreen = () => {
   const { ...methods } = useForm<LoginRequest>();
@@ -12,6 +13,7 @@ const SignInScreen = () => {
   const onSubmit: SubmitHandler<LoginRequest> = async (data) => {
     try {
       await onLogin!(data);
+      router.replace("/(root)/(tabs)/home");
     } catch (error: any) {
       Alert.alert("Login failed", error.message);
     }
@@ -22,10 +24,10 @@ const SignInScreen = () => {
   return (
     <SafeAreaView>
       <View>
-        <View>
-          <Text>Login</Text>
+        <View className="w-full h-[300px] m-4 relative flex justify-center items-center">
+          <Image source={require("@/assets/images/login.webp")} className="w-2/3 h-2/3" resizeMode="cover" />
         </View>
-        <View>
+        <View className="p-4">
           <FormProvider {...methods}>
             <InputField
               name="email"

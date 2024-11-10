@@ -41,11 +41,13 @@ const Layout = () => {
   return (
     <Stack>
       <Stack.Screen name="+not-found" />
-      {authState?.authenticated ? (
-        <Stack.Screen name="(root)" options={{ headerShown: false }} />
+      {/* {authState?.authenticated ? (
+        <Stack.Screen name="cos" options={{ headerShown: false }} />
       ) : (
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-      )}
+        <Stack.Screen name="sign-in" options={{ headerShown: false }} />
+      )} */}
+      <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="(root)" options={{ headerShown: false }} />
       <Stack.Screen name="(auth)" options={{ headerShown: false }} />
     </Stack>
   );

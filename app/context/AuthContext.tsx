@@ -2,6 +2,7 @@ import { LoginRequest } from "@/models/user/user.model";
 import { createContext, useContext, useEffect, useState } from "react";
 import * as SecureStore from "expo-secure-store";
 import { api } from "@/api/api";
+import { router } from "expo-router";
 
 interface AuthState {
   token: string | null;
@@ -15,7 +16,6 @@ interface AuthProps {
 }
 
 const tokenKey = process.env.EXPO_PUBLIC_TOKEN_KEY || "token";
-const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://localhost:3000";
 
 export const AuthContext = createContext<AuthProps>({});
 
@@ -24,16 +24,18 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }: any) => {
-  const [authState, setAuthState] = useState<AuthState>({
-    token: null,
-    authenticated: false,
-  });
+  const [authState, setAuthState] = useState<AuthState | undefined>(undefined);
 
   useEffect(() => {
     (async () => {
       const token = await SecureStore.getItemAsync(tokenKey);
+      console.log("token", token);
       if (token) {
         setAuthState({ token, authenticated: true });
+        router.push("/(root)/(tabs)/home");
+      } else {
+        setAuthState({ token: null, authenticated: false });
+        router.push("/(auth)/welcome");
       }
     })();
   }, []);
