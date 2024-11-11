@@ -1,28 +1,36 @@
 import { TabBarIcon } from "@/components/TabBarIcon";
-import { Tabs } from "expo-router";
+import { Stack, Tabs } from "expo-router";
 import React from "react";
 
 const Layout = () => {
   return (
-    <Tabs initialRouteName="calendar" screenOptions={{ tabBarActiveTintColor: "blue" }}>
-      <Tabs.Screen
-        name="calendar"
-        options={{ title: "Kalendarz", tabBarIcon: () => <TabBarIcon name="calendar-outline" /> }}
+    <Stack screenOptions={{ title: "Więcej" }}>
+      <Stack.Screen name="index" />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          headerTitle: "Zasoby",
+          headerBackTitle: "Cofnij",
+        }}
+        name="items"
       />
-      <Tabs.Screen
-        name="documents"
-        options={{ title: "Dokumenty", tabBarIcon: () => <TabBarIcon name="file-tray-full-outline" /> }}
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          headerTitle: "Klienci",
+          headerBackTitle: "Cofnij",
+        }}
+        name="customers"
       />
-      <Tabs.Screen
-        name="orders"
-        options={{ title: "Zlecenia", tabBarIcon: () => <TabBarIcon name="albums-outline" /> }}
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          headerTitle: "Zasoby",
+          headerBackTitle: "Cofnij",
+        }}
+        name="cos"
       />
-      <Tabs.Screen name="states" options={{ title: "Stany", tabBarIcon: () => <TabBarIcon name="cube-outline" /> }} />
-      <Tabs.Screen
-        name="more"
-        options={{ title: "Więcej", tabBarIcon: () => <TabBarIcon name="ellipsis-vertical-outline" /> }}
-      />
-    </Tabs>
+    </Stack>
   );
 };
 

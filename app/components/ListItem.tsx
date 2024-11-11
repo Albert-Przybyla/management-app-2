@@ -8,13 +8,6 @@ interface SwipeButtonProps {
   onPress?: () => void;
 }
 
-interface ListItemProps {
-  title: string;
-  leftIconName?: keyof typeof Ionicons.glyphMap;
-  rightIconName?: keyof typeof Ionicons.glyphMap;
-  onPress?: () => void;
-}
-
 const SwipeButton = ({ iconName, color, onPress }: SwipeButtonProps) => (
   <View>
     <TouchableOpacity onPress={onPress} style={{ justifyContent: "center", alignItems: "center", width: 64 }}>
@@ -23,11 +16,18 @@ const SwipeButton = ({ iconName, color, onPress }: SwipeButtonProps) => (
   </View>
 );
 
+interface ListItemProps {
+  title: string;
+  leftIconName?: keyof typeof Ionicons.glyphMap;
+  rightIconName?: keyof typeof Ionicons.glyphMap;
+  onPress: () => void;
+}
+
 const ListItem = ({ title, leftIconName, rightIconName, onPress }: ListItemProps) => {
   return (
     <View className="w-full bg-white">
       <TouchableOpacity
-        onPress={onPress}
+        onPress={() => onPress()}
         className="w-full px-2 py-4 space-x-2 border-b border-neutral-200 bg-white active:bg-white flex flex-row items-center"
       >
         {leftIconName && <Ionicons name={leftIconName} size={20} style={{ marginRight: 8 }} />}

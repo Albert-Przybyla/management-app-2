@@ -19,8 +19,12 @@ const Layout = () => {
       />
       <Tabs.Screen name="states" options={{ title: "Stany", tabBarIcon: () => <TabBarIcon name="cube-outline" /> }} />
       <Tabs.Screen
-        name="more"
-        options={{ title: "Więcej", tabBarIcon: () => <TabBarIcon name="ellipsis-vertical-outline" /> }}
+        name="(more)"
+        options={{
+          headerShown: false,
+          title: "Więcej",
+          tabBarIcon: () => <TabBarIcon name="ellipsis-vertical-outline" />,
+        }}
       />
     </Tabs>
   );

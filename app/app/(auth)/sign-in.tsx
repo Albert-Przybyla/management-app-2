@@ -13,7 +13,7 @@ const SignInScreen = () => {
   const onSubmit: SubmitHandler<LoginRequest> = async (data) => {
     try {
       await onLogin!(data);
-      router.replace("/(root)/(tabs)/home");
+      router.replace("/(root)/(tabs)/calendar");
     } catch (error: any) {
       Alert.alert("Login failed", error.message);
     }

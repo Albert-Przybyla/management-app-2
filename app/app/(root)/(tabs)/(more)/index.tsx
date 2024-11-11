@@ -5,22 +5,73 @@ import { useAuth } from "@/context/AuthContext";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { SafeAreaView, SectionList, View } from "react-native";
+import { Alert } from "react-native";
+
+interface section {
+  title: string;
+  data: data[];
+}
+
+interface data {
+  name: string;
+  icon?: keyof typeof Ionicons.glyphMap;
+  action: () => void;
+}
 
 const MoreScreen = () => {
   const { authState, onLogout } = useAuth();
-  const moreScreens = [
+
+  const onLogoutPress = () => {
+    Alert.alert(
+      "Czy na pewno chcesz wylogować się?",
+      undefined,
+      [
+        {
+          text: "Anuluj",
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            onLogout!();
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
+  const moreScreens: section[] = [
     {
       title: "Organizacja",
       data: [
         {
-          name: "Items",
-          icon: "search-outline",
-          action: () => router.push("/(root)/(tabs)/(more)/items"),
+          name: "Zasoby",
+          icon: "construct-outline",
+          action: () => {
+            router.push("/(root)/(tabs)/(more)/items");
+          },
+        },
+        {
+          name: "Klienci",
+          icon: "people-outline",
+          action: () => {
+            router.push("/(root)/(tabs)/(more)/customers");
+          },
+        },
+        {
+          name: "Realizacje",
+          icon: "receipt-outline",
+          action: () => {
+            router.push("/(root)/(tabs)/(more)/customers");
+          },
         },
         {
           name: "Cos",
           icon: "search-outline",
-          action: () => router.push("/(root)/(tabs)/(more)/cos"),
+          action: () => {
+            router.push("/(root)/(tabs)/(more)/cos");
+          },
         },
       ],
     },
@@ -28,14 +79,18 @@ const MoreScreen = () => {
       title: "Użytkownik",
       data: [
         {
-          name: "Items",
-          icon: "search-outline",
-          action: () => router.push("/(root)/(tabs)/(more)/items"),
+          name: "Ustawienia",
+          icon: "settings-outline",
+          action: () => {
+            router.push("/(root)/(tabs)/(more)/items");
+          },
         },
         {
           name: "Wyloguj sie",
-          icon: "search-outline",
-          action: () => onLogout!(),
+          icon: "log-out-outline",
+          action: () => {
+            onLogoutPress();
+          },
         },
       ],
     },
@@ -64,9 +119,9 @@ const MoreScreen = () => {
         renderItem={(item) => (
           <ListItem
             title={item.item.name}
-            leftIconName="star"
+            leftIconName={item.item.icon}
             rightIconName="chevron-forward"
-            onPress={() => () => item.item.action()}
+            onPress={item.item.action}
           />
         )}
         ListEmptyComponent={ListEmpty}
