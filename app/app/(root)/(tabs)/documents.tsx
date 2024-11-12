@@ -16,7 +16,6 @@ const DocumentsScreen = () => {
 
   const getItems = async () => {
     const response = await fetchTransfers(1, 10);
-    console.log(response);
     if (response) {
       setData(response);
     }

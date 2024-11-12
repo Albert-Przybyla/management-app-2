@@ -49,7 +49,7 @@ const MoreScreen = () => {
           name: "Zasoby",
           icon: "construct-outline",
           action: () => {
-            router.push("/(root)/(tabs)/(more)/items");
+            router.push("/(root)/(tabs)/(more)/(items)");
           },
         },
         {
@@ -82,7 +82,7 @@ const MoreScreen = () => {
           name: "Ustawienia",
           icon: "settings-outline",
           action: () => {
-            router.push("/(root)/(tabs)/(more)/items");
+            router.push("/(root)/(tabs)/(more)/(items)");
           },
         },
         {
