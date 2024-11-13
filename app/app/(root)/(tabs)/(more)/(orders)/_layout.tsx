@@ -13,11 +13,11 @@ const Layout = () => {
       <Stack.Screen
         options={({ route }) => ({
           headerShown: true,
-          headerTitle: (route.params as { id?: string }).id ? "Edytuj klienta" : "Dodaj klienta",
+          headerTitle: (route.params as { id?: string }).id ? "Edytuj zamówienie" : "Dodaj zamówienie",
           headerBackTitle: "Zamknij",
           presentation: "modal",
         })}
-        name="customer_form"
+        name="order_form"
       />
     </Stack>
   );

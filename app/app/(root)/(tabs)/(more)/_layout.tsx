@@ -54,7 +54,7 @@ const Layout = () => {
             <Button
               onPress={() => {
                 router.push({
-                  pathname: "/(customers)/customer_form",
+                  pathname: "/(orders)/order_form",
                   params: { id: undefined },
                 });
               }}
