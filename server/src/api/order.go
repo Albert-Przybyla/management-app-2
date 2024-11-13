@@ -1,14 +1,14 @@
 package api
 
 import (
-	model_package "menagment-app-2/src/model/package"
+	model_order "menagment-app-2/src/model/order"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-func (a *APIServer) CreatePackage(c *gin.Context) {
-	var req model_package.CreatePackageRequest
+func (a *APIServer) CreateOrder(c *gin.Context) {
+	var req model_order.CreateOrderRequest
 
 	if err := c.BindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -20,16 +20,16 @@ func (a *APIServer) CreatePackage(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user ID"})
 	}
 
-	err := a.db.CreatePackage(req, organization_id.(string))
+	err := a.db.CreateOrder(req, organization_id.(string))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Item created successfully"})
+	c.JSON(http.StatusOK, gin.H{"message": "Customer created successfully"})
 }
 
-func (a *APIServer) GetPackages(c *gin.Context) {
+func (a *APIServer) GetOrders(c *gin.Context) {
 	organization_id, exist := c.Get("organization_id")
 	pageSizeInt, pageNumberInt, err := getPaginationParams(c)
 	if err != nil {
@@ -41,7 +41,7 @@ func (a *APIServer) GetPackages(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user ID"})
 	}
 
-	items, err := a.db.GetPackages(organization_id.(string), pageSizeInt, pageNumberInt)
+	items, err := a.db.GetOrders(organization_id.(string), pageSizeInt, pageNumberInt)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -49,15 +49,15 @@ func (a *APIServer) GetPackages(c *gin.Context) {
 	c.JSON(http.StatusOK, items)
 }
 
-func (a *APIServer) GetPackage(c *gin.Context) {
-	package_id := c.Param("package_id")
+func (a *APIServer) GetOrder(c *gin.Context) {
+	order_id := c.Param("order_id")
 	organization_id, exist := c.Get("organization_id")
 
 	if !exist {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user ID"})
 	}
 
-	item, err := a.db.GetPackage(package_id, organization_id.(string))
+	item, err := a.db.GetOrder(order_id, organization_id.(string))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -66,39 +66,15 @@ func (a *APIServer) GetPackage(c *gin.Context) {
 
 }
 
-func (a *APIServer) UpdatePackage(c *gin.Context) {
-	var req model_package.UpdatePackageRequest
-
-	if err := c.BindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	package_id := c.Param("package_id")
+func (a *APIServer) DeleteOrder(c *gin.Context) {
+	order_id := c.Param("order_id")
 	organization_id, exist := c.Get("organization_id")
 
 	if !exist {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user ID"})
 	}
 
-	err := a.db.UpdatePackage(package_id, organization_id.(string), req)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"message": "Item updated successfully"})
-}
-
-func (a *APIServer) DeletePackage(c *gin.Context) {
-	package_id := c.Param("package_id")
-	organization_id, exist := c.Get("organization_id")
-
-	if !exist {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user ID"})
-	}
-
-	err := a.db.DeletePackage(package_id, organization_id.(string))
+	err := a.db.DeleteOrder(order_id, organization_id.(string))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

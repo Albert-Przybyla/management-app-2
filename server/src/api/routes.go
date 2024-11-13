@@ -34,6 +34,18 @@ func (a *APIServer) Routes() {
 	a.engine.PUT("/package/:package_id", a.validateToken(), a.UpdatePackage)
 	a.engine.DELETE("/package/:package_id", a.validateToken(), a.DeletePackage)
 
+	// Customer routes
+	a.engine.POST("/customer", a.validateToken(), a.CreateCustomer)
+	a.engine.GET("/customer", a.validateToken(), a.GetCustomers)
+	a.engine.GET("/customer/:customer_id", a.validateToken(), a.GetCustomer)
+	a.engine.DELETE("/customer/:customer_id", a.validateToken(), a.DeleteCustomer)
+
+	// Order routes
+	a.engine.POST("/order", a.validateToken(), a.CreateOrder)
+	a.engine.GET("/order", a.validateToken(), a.GetOrders)
+	a.engine.GET("/order/:order_id", a.validateToken(), a.GetOrder)
+	a.engine.DELETE("/order/:order_id", a.validateToken(), a.DeleteOrder)
+
 	// Transfer routes
 	a.engine.POST("/transfer", a.validateToken(), a.CreateTransfer)
 	a.engine.GET("/transfer", a.validateToken(), a.GetTransfers)
