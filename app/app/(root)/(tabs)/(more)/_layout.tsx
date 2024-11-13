@@ -26,12 +26,42 @@ const Layout = () => {
         }}
       />
       <Stack.Screen
+        name="(customers)"
         options={{
           headerShown: true,
           headerTitle: "Klienci",
           headerBackTitle: "Cofnij",
+          headerRight: () => (
+            <Button
+              onPress={() => {
+                router.push({
+                  pathname: "/(customers)/customer_form",
+                  params: { id: undefined },
+                });
+              }}
+              title="Dodaj"
+            />
+          ),
         }}
-        name="customers"
+      />
+      <Stack.Screen
+        name="(orders)"
+        options={{
+          headerShown: true,
+          headerTitle: "Zamówienia",
+          headerBackTitle: "Cofnij",
+          headerRight: () => (
+            <Button
+              onPress={() => {
+                router.push({
+                  pathname: "/(customers)/customer_form",
+                  params: { id: undefined },
+                });
+              }}
+              title="Dodaj"
+            />
+          ),
+        }}
       />
       <Stack.Screen
         options={{

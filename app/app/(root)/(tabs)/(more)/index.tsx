@@ -56,14 +56,14 @@ const MoreScreen = () => {
           name: "Klienci",
           icon: "people-outline",
           action: () => {
-            router.push("/(root)/(tabs)/(more)/customers");
+            router.push("/(root)/(tabs)/(more)/(customers)");
           },
         },
         {
           name: "Realizacje",
           icon: "receipt-outline",
           action: () => {
-            router.push("/(root)/(tabs)/(more)/customers");
+            router.push("/(root)/(tabs)/(more)/(orders)");
           },
         },
         {
