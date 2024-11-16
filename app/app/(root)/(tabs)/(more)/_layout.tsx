@@ -64,6 +64,25 @@ const Layout = () => {
         }}
       />
       <Stack.Screen
+        name="(users)"
+        options={{
+          headerShown: true,
+          headerTitle: "Użytkownicy",
+          headerBackTitle: "Cofnij",
+          headerRight: () => (
+            <Button
+              onPress={() => {
+                router.push({
+                  pathname: "/(users)/user_form",
+                  params: { id: undefined },
+                });
+              }}
+              title="Dodaj"
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
         options={{
           headerShown: true,
           headerTitle: "Zasoby",

@@ -67,6 +67,13 @@ const MoreScreen = () => {
           },
         },
         {
+          name: "Użytkownicy",
+          icon: "people-outline",
+          action: () => {
+            router.push("/(root)/(tabs)/(more)/(users)");
+          },
+        },
+        {
           name: "Cos",
           icon: "search-outline",
           action: () => {
