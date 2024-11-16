@@ -79,6 +79,26 @@ func (a *APIServer) CreateUser(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
+func (a *APIServer) GetUsers(c *gin.Context) {
+	organization_id, exist := c.Get("organization_id")
+	pageSizeInt, pageNumberInt, err := getPaginationParams(c)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid page_size or page_number"})
+		return
+	}
+
+	if !exist {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user ID"})
+	}
+
+	items, err := a.db.GetUsers(organization_id.(string), pageSizeInt, pageNumberInt)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, items)
+}
+
 func (a *APIServer) GetUser(c *gin.Context) {
 	user_id, exist := c.Get("user_id")
 	if !exist {

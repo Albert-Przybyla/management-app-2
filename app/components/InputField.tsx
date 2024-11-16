@@ -9,7 +9,7 @@ import {
   Platform,
   Keyboard,
 } from "react-native";
-import { useController, useFormContext, ControllerProps, UseControllerProps } from "react-hook-form";
+import { useController, useFormContext } from "react-hook-form";
 
 const InputField = ({
   label,

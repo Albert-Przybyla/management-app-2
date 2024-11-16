@@ -63,7 +63,7 @@ func (p *Postgres) GetTransfer(transferID, organizationID string) (*model_operat
 
 func (p *Postgres) GetTransfers(organizationID string, pageSize, pageNumber int) (*model.PagedListResponse[model_operations.Transfer], error) {
 	var items []model_operations.Transfer
-	res := p.db.Preload("Items").Preload("Packages").Where("organization_id = ?", organizationID).Order("created_at desc").Find(&items)
+	res := p.db.Preload("Items").Preload("Packages").Where("organization_id = ?", organizationID).Order("created_at desc").Limit(pageSize).Offset((pageNumber - 1) * pageSize).Find(&items)
 
 	if res.Error != nil {
 		return nil, res.Error

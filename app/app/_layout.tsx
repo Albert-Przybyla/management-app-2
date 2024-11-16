@@ -6,10 +6,34 @@ import "react-native-reanimated";
 import "../global.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { LocaleConfig } from "react-native-calendars";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  LocaleConfig.locales["pl"] = {
+    monthNames: [
+      "Styczeń",
+      "Luty",
+      "Marzec",
+      "Kwiecień",
+      "Maj",
+      "Czerwiec",
+      "Lipiec",
+      "Sierpiń",
+      "Wrzesien",
+      "Październik",
+      "Listopad",
+      "Grudzień",
+    ],
+    monthNamesShort: ["Sty", "Lut", "Mar", "Kwi", "Maj", "Cze", "Lip", "Sie", "Wrz", "Paź", "Lis", "Gru"],
+    dayNames: ["Poniedziałek", "Wtorek", "Sąbado", "Czwartek", "Piątek", "Sobota", "Niedziela"],
+    dayNamesShort: ["Pon", "Wto", "Sob", "Czw", "Pią", "Sob", "Nie"],
+    today: "Dzisiaj",
+  };
+
+  LocaleConfig.defaultLocale = "pl";
+
   const [loaded] = useFonts({
     "Jakarta-Bold": require("../assets/fonts/PlusJakartaSans-Bold.ttf"),
     "Jakarta-ExtraBold": require("../assets/fonts/PlusJakartaSans-ExtraBold.ttf"),

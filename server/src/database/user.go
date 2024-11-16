@@ -94,3 +94,32 @@ func (p *Postgres) userExists(email string) (bool, error) {
 
 	return true, nil
 }
+
+func (p *Postgres) DeleteUser(id string) error {
+	res := p.db.Where("id = ?", id).Delete(&model_user.User{})
+	if res.Error != nil {
+		return res.Error
+	}
+	return nil
+}
+
+func (p *Postgres) GetUsers(organizationId string, pageSize, pageNumber int) (*model.PagedListResponse[model_user.User], error) {
+	var items []model_user.User
+	res := p.db.Table("users").Where("organization_id = ?", organizationId).Limit(pageSize).Offset((pageNumber - 1) * pageSize).Find(&items)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+
+	var totalItems int64
+	p.db.Model(&model_user.User{}).Where("organization_id = ?", organizationId).Count(&totalItems)
+
+	totalPages := int((totalItems + int64(pageSize) - 1) / int64(pageSize))
+	response := model.PagedListResponse[model_user.User]{
+		Items:       items,
+		TotalItems:  int(totalItems),
+		TotalPages:  totalPages,
+		CurrentPage: pageNumber,
+	}
+
+	return &response, nil
+}

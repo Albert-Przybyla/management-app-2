@@ -8,7 +8,8 @@ func (a *APIServer) Routes() {
 
 	// User routes
 	a.engine.POST("/user", a.validateToken(), a.CreateUser)
-	a.engine.GET("/user", a.validateToken(), a.GetUser)
+	a.engine.GET("/user/current", a.validateToken(), a.GetUser)
+	a.engine.GET("/user", a.validateToken(), a.GetUsers)
 	a.engine.PUT("/user", a.validateToken(), a.UpdateUser)
 	a.engine.PATCH("/user", a.validateToken(), a.ChangePassword)
 

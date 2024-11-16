@@ -23,3 +23,15 @@ declare interface InputFieldProps extends TextInputProps {
 
   defaultValue?: string;
 }
+declare interface SelectFieldProps extends SelectProps {
+  label: string;
+  Icon?: any;
+  labelClass?: string;
+  containerClass?: string;
+  inputClass?: string;
+  iconClass?: string;
+  className?: string;
+  name: string;
+  rules?: any;
+  defaultValue?: string;
+}
